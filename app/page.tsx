@@ -88,11 +88,11 @@ export default function LandingPage() {
   };
 
   const categories = [
-    { name: "Template", slug: "template", desc: "PPT, PSD, AI, Figma", color: "bg-purple-500/10 text-purple-400" },
-    { name: "Preset / LUTs", slug: "preset", desc: "Lightroom, Premiere, Coret", color: "bg-blue-500/10 text-blue-400" },
-    { name: "Motion Graphic", slug: "motion", desc: "After Effects, Premiere, CapCut", color: "bg-red-500/10 text-red-400" },
-    { name: "Font / Typeface", slug: "font", desc: "Sans Serif, Serif, Display", color: "bg-yellow-500/10 text-yellow-400" },
-    { name: "Aset Kreatif", slug: "asset", desc: "3D model, Vektor, PNG", color: "bg-green-500/10 text-green-400" },
+    { name: "Template", slug: "template", desc: "PPT, PSD, AI, Figma", icon: "/photoshop.svg", color: "bg-purple-500/10 text-purple-400" },
+    { name: "Preset / LUTs", slug: "preset", desc: "Lightroom, Premiere, Coret", icon: "/premiere.svg", color: "bg-blue-500/10 text-blue-400" },
+    { name: "Motion Graphic", slug: "motion", desc: "After Effects, Premiere, CapCut", icon: "/after-effects.svg", color: "bg-red-500/10 text-red-400" },
+    { name: "Font / Typeface", slug: "font", desc: "Sans Serif, Serif, Display", icon: "/fonts.svg", color: "bg-yellow-500/10 text-yellow-400" },
+    { name: "Aset Kreatif", slug: "asset", desc: "3D model, Vektor, PNG", icon: "/blender.svg", color: "bg-green-500/10 text-green-400" },
   ];
 
   return (
@@ -146,12 +146,12 @@ export default function LandingPage() {
             >
               Mulai Belanja <ArrowRight className="w-4 h-4" />
             </Link>
-            <a
-              href="http://localhost:3001/"
+            <Link
+              href="/jadi-seller"
               className="w-full sm:w-auto border border-border hover:border-accent hover:bg-accent/5 text-foreground font-bold px-8 py-3.5 rounded-lg text-sm transition-all duration-300 ease-in-out hover:-translate-y-1 shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] flex items-center justify-center"
             >
               Mulai Jualan (Seller)
-            </a>
+            </Link>
           </motion.div>
         </motion.div>
       </section>
@@ -191,10 +191,14 @@ export default function LandingPage() {
                 href={`/products?category=${cat.slug}`}
                 className="flex items-center gap-4 text-muted-foreground hover:text-foreground hover:scale-105 transition-all"
               >
-                {/* Tempat Logo Software */}
-                <div className="w-12 h-12 flex items-center justify-center text-3xl font-black text-accent/50">
-                  {/* TODO: Ganti dengan tag <img src="logo.png" /> */}
-                  {cat.name[0]}
+                {/* Logo Software Kategori */}
+                <div className="w-12 h-12 flex items-center justify-center shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={cat.icon}
+                    alt={cat.name}
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
                 <div className="flex flex-col justify-center">
                   <span className="font-extrabold text-2xl uppercase tracking-tight">{cat.name}</span>
@@ -432,14 +436,12 @@ export default function LandingPage() {
           </div>
           
           <div className="relative z-10 pt-4">
-            <a
-              href="http://localhost:3001/register"
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              href="/jadi-seller"
               className="inline-flex bg-foreground hover:bg-accent text-background hover:text-black font-bold px-8 py-4 rounded-full text-sm transition-colors items-center justify-center"
             >
               Daftar Sebagai Kreator Sekarang
-            </a>
+            </Link>
           </div>
         </div>
       </section>
