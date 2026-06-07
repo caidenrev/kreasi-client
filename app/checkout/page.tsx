@@ -1,0 +1,248 @@
+"use client";
+
+import { useState } from "react";
+import { useCart } from "@/hooks/useCart";
+import { ArrowLeft, CreditCard, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
+
+// Declare window interface for Midtrans Snap CDN script
+declare global {
+  interface Window {
+    snap: any;
+  }
+}
+
+const checkoutSchema = z.object({
+  name: z.string().min(2, "Nama minimal 2 karakter"),
+  email: z.string().email("Format email tidak valid"),
+  phone: z.string().min(9, "Nomor WhatsApp tidak valid"),
+});
+
+export default function CheckoutPage() {
+  const { cart, cartTotal, clearCart } = useCart();
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+
+  const form = useForm<z.infer<typeof checkoutSchema>>({
+    resolver: zodResolver(checkoutSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+    },
+  });
+
+  const formatIDR = (num: number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0,
+    }).format(num || 0);
+  };
+
+  const handleCheckoutSubmit = async (values: z.infer<typeof checkoutSchema>) => {
+    if (cart.length === 0) {
+      toast.error("Keranjang belanja kosong");
+      return;
+    }
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/midtrans/create-transaction", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          buyer: values,
+          items: cart.map((item) => ({
+            productId: item.id,
+            productTitle: item.title,
+            sellerId: item.sellerId,
+            sellerName: item.sellerName,
+            price: item.price,
+          })),
+          totalAmount: cartTotal,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Gagal membuat transaksi.");
+      }
+
+      const { snapToken, orderId } = data;
+
+      // Open Midtrans Snap Modal
+      if (window.snap) {
+        window.snap.pay(snapToken, {
+          onSuccess: function (result: any) {
+            clearCart();
+            router.push(`/success?order_id=${orderId}`);
+          },
+          onPending: function (result: any) {
+            clearCart();
+            router.push(`/success?order_id=${orderId}`);
+          },
+            router.push(`/success?order_id=${orderId}`);
+          },
+          onError: function (result: any) {
+            toast.error("Pembayaran gagal. Silakan coba lagi.");
+          },
+          onClose: function () {
+            toast.warning("Pembayaran dibatalkan.");
+          },
+        });
+      } else {
+        throw new Error("Midtrans Snap SDK tidak termuat. Periksa koneksi internet Anda.");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Terjadi kesalahan sistem.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mx-auto max-w-4xl px-6 py-12 space-y-8">
+      {/* Back to Catalog */}
+      <Link href="/products" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+        <ArrowLeft className="w-4 h-4" /> Batal & Kembali ke Catalog
+      </Link>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Left Column: Form Info */}
+        <Card className="bg-surface border-border">
+          <CardHeader>
+            <CardTitle className="text-foreground">Data Pembeli</CardTitle>
+            <CardDescription className="text-muted-foreground">
+              Isi formulir untuk mendapatkan link unduhan digital.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleCheckoutSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-muted-foreground text-xs font-semibold">NAMA LENGKAP</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Joko Susilo"
+                          className="bg-surface-2 border-border text-foreground focus-visible:ring-accent"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-400" />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-muted-foreground text-xs font-semibold">EMAIL AKTIF (UNTUK BACKUP LINK)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="joko@email.com"
+                          className="bg-surface-2 border-border text-foreground focus-visible:ring-accent"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-400" />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-muted-foreground text-xs font-semibold">NOMOR HANDPHONE (WA)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="tel"
+                          placeholder="08123456789"
+                          className="bg-surface-2 border-border text-foreground focus-visible:ring-accent"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-400" />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  type="submit"
+                  disabled={loading || cart.length === 0}
+                  className="w-full bg-accent hover:bg-accent-hover text-black font-bold py-6 rounded-lg text-sm mt-4"
+                >
+                  <CreditCard className="w-4 h-4 mr-2" />
+                  {loading ? "Memproses Token..." : "Bayar Sekarang"}
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+
+        {/* Right Column: Order Summary */}
+        <Card className="bg-surface border-border flex flex-col justify-between">
+          <CardContent className="pt-6 space-y-6">
+            <h3 className="text-lg font-bold border-b border-border pb-3 text-foreground">Ringkasan Pembelian</h3>
+
+            {cart.length === 0 ? (
+              <p className="text-xs text-muted-foreground py-6 text-center">Keranjang belanja kosong.</p>
+            ) : (
+              <div className="divide-y divide-border max-h-[250px] overflow-y-auto pr-1">
+                {cart.map((item) => (
+                  <div key={item.id} className="py-3 flex gap-3 items-center justify-between text-xs">
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      className="w-10 h-10 rounded object-cover border border-border bg-black"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-foreground truncate">{item.title}</p>
+                      <p className="text-muted-foreground">by {item.sellerName}</p>
+                    </div>
+                    <span className="font-bold text-foreground flex-shrink-0">{formatIDR(item.price)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+
+          <CardContent className="border-t border-border pt-4 space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Total Bayar:</span>
+              <span className="text-2xl font-extrabold text-accent">{formatIDR(cartTotal)}</span>
+            </div>
+
+            <div className="bg-surface-2 border border-border rounded-lg p-3 text-[11px] text-muted-foreground flex gap-2 items-start">
+              <ShieldCheck className="w-4 h-4 text-accent flex-shrink-0" />
+              <span>
+                Pembayaran diproses dengan aman menggunakan server payment gateway resmi Midtrans.
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
