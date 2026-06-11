@@ -28,7 +28,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased min-h-screen flex flex-col justify-between bg-background text-foreground transition-colors duration-300">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
           <TooltipProvider>
             <Navbar />
             <main className="flex-grow">{children}</main>
@@ -36,9 +36,12 @@ export default function RootLayout({
           </TooltipProvider>
           <Toaster />
         </ThemeProvider>
-        {/* Midtrans Snap Script */}
         <Script
-          src="https://app.midtrans.com/snap/snap.js"
+          src={
+            process.env.NEXT_PUBLIC_MIDTRANS_IS_PRODUCTION === "true"
+              ? "https://app.midtrans.com/snap/snap.js"
+              : "https://app.sandbox.midtrans.com/snap/snap.js"
+          }
           data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
           strategy="lazyOnload"
         />

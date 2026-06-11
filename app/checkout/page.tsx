@@ -94,8 +94,6 @@ export default function CheckoutPage() {
             clearCart();
             router.push(`/success?order_id=${orderId}`);
           },
-            router.push(`/success?order_id=${orderId}`);
-          },
           onError: function (result: any) {
             toast.error("Pembayaran gagal. Silakan coba lagi.");
           },

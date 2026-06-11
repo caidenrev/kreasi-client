@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, limit, doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Download, Layers, ShieldCheck } from "lucide-react";
+import { ArrowRight, Sparkles, Store, Download, Layers, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function LandingPage() {
@@ -116,7 +116,7 @@ export default function LandingPage() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <Sparkles className="w-3.5 h-3.5" /> Platform Kreatif Terbesar Indonesia
+            <Store className="w-3.5 h-3.5" /> Ruang Berkarya Kreator Lokal
           </motion.div>
           <motion.h1 
             className="text-4xl sm:text-6xl font-extrabold tracking-tight text-foreground leading-tight"

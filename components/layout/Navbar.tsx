@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/hooks/useCart";
-import { ShoppingBag, Store, Trash2, X, Menu, LayoutGrid, Info, HelpCircle, Mail } from "lucide-react";
+import { ShoppingBag, Store, Trash2, X, Menu, LayoutGrid, Info, HelpCircle, Mail, Package } from "lucide-react";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -45,6 +45,9 @@ export default function Navbar() {
         <nav className="flex items-center gap-6">
           <Link href="/products" className={`${getLinkClass("/products")} hidden sm:block`}>
             Katalog
+          </Link>
+          <Link href="/track" className={`${getLinkClass("/track")} hidden sm:block`}>
+            Lacak Pesanan
           </Link>
           <Link href="/about" className={`${getLinkClass("/about")} hidden sm:block`}>
             Tentang
@@ -174,6 +177,13 @@ export default function Navbar() {
           >
             <LayoutGrid className="w-4 h-4 text-accent" />
             Katalog
+          </Link>
+          <Link
+            href="/track"
+            className="flex items-center gap-3 px-2 py-3 rounded-lg text-sm font-medium text-muted-foreground border border-transparent hover:border-accent/50 hover:text-foreground hover:bg-surface-2 transition-all duration-200"
+          >
+            <Package className="w-4 h-4 text-accent" />
+            Lacak Pesanan
           </Link>
           <Link
             href="/about"
