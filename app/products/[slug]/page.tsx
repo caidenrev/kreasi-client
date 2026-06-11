@@ -37,7 +37,7 @@ export default function ProductDetailPage() {
         );
         const snap = await getDocs(q);
         if (!snap.empty) {
-          const pData = { id: snap.docs[0].id, ...snap.docs[0].data() };
+          const pData = { id: snap.docs[0].id, ...snap.docs[0].data() } as any;
           setProduct(pData);
 
           // Fetch similar products in same category
