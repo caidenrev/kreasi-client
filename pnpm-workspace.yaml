@@ -1,5 +1,0 @@
-onlyBuiltDependencies:
-  - msw
-  - protobufjs
-  - sharp
-  - unrs-resolver
