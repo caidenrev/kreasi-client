@@ -55,13 +55,5 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@11.5.2",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "msw",
-      "protobufjs",
-      "sharp",
-      "unrs-resolver"
-    ]
-  }
+  "packageManager": "pnpm@11.5.2"
 }
