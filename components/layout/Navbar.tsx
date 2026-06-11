@@ -210,7 +210,7 @@ export default function Navbar() {
           <div className="my-2 border-t border-border" />
 
           <a
-            href="http://localhost:3001/register"
+            href={`${process.env.NEXT_PUBLIC_SELLER_URL || "https://kreasi-seller.vercel.app"}/register`}
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-3 px-2 py-3 rounded-lg text-sm font-bold text-foreground border border-transparent hover:border-accent/50 hover:bg-surface-2 transition-all duration-200"

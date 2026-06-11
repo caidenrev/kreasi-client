@@ -17,7 +17,7 @@ export default function Footer() {
           <div className="space-y-3 flex flex-col">
             <h4 className="font-bold text-foreground">Marketplace</h4>
             <Link href="/products" className="hover:text-foreground transition-colors">Semua Produk</Link>
-            <a href="http://localhost:3001" target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">Seller Portal</a>
+            <a href={process.env.NEXT_PUBLIC_SELLER_URL || "https://kreasi-seller.vercel.app"} target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">Seller Portal</a>
           </div>
           <div className="space-y-3 flex flex-col">
             <h4 className="font-bold text-foreground">Perusahaan</h4>

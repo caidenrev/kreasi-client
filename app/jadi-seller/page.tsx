@@ -11,7 +11,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-const SELLER_URL = "http://localhost:3001";
+const SELLER_URL = process.env.NEXT_PUBLIC_SELLER_URL || "https://kreasi-seller.vercel.app";
 
 const benefits = [
   {
