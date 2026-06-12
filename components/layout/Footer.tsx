@@ -5,8 +5,9 @@ export default function Footer() {
     <footer className="bg-surface border-t border-border py-12 px-6">
       <div className="mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-start gap-12 text-sm">
         <div className="space-y-2 max-w-sm">
-          <Link href="/" className="inline-block text-lg font-extrabold text-foreground tracking-tight">
-            KREASI<span className="text-accent">.ID</span>
+          <Link href="/" className="inline-block">
+            <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-8 dark:hidden" />
+            <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-8 hidden dark:block" />
           </Link>
           <p className="text-muted-foreground text-xs leading-relaxed">
             Marketplace Produk Digital Kreatif Mitra Kreator Indonesia.
