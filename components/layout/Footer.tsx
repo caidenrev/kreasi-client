@@ -6,8 +6,8 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-start gap-12 text-sm">
         <div className="space-y-2 max-w-sm">
           <Link href="/" className="inline-block">
-            <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-8 dark:hidden" />
-            <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-8 hidden dark:block" />
+            <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-8 dark:hidden" />
+            <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-8 hidden dark:block" />
           </Link>
           <p className="text-muted-foreground text-xs leading-relaxed">
             Marketplace Produk Digital Kreatif Mitra Kreator Indonesia.
