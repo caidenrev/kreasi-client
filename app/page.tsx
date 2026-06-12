@@ -111,7 +111,7 @@ export default function LandingPage() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <motion.div 
-            className="inline-flex items-center gap-2 bg-lime-600/10 dark:bg-accent/10 border border-lime-600/20 dark:border-accent/20 text-lime-800 dark:text-accent px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+            className="inline-flex items-center gap-2 bg-lime-600/10 dark:bg-accent border border-lime-600/20 dark:border-accent text-lime-800 dark:text-black px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider dark:shadow-[0_0_15px_rgba(232,255,77,0.5)]"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
