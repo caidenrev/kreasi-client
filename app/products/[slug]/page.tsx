@@ -214,7 +214,12 @@ export default function ProductDetailPage() {
                 </div>
                 <div className="p-4 space-y-2">
                   <h4 className="font-bold text-sm text-foreground truncate group-hover:text-accent">{p.title}</h4>
-                  <p className="text-xs text-accent font-bold">{formatIDR(p.price)}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs text-accent font-bold">{formatIDR(p.price)}</p>
+                    {p.originalPrice && p.originalPrice > p.price && (
+                      <span className="text-[10px] text-muted-foreground line-through">{formatIDR(p.originalPrice)}</span>
+                    )}
+                  </div>
                 </div>
               </Link>
             ))}

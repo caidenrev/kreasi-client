@@ -269,10 +269,15 @@ export default function LandingPage() {
                     <h4 className="font-bold text-sm text-foreground truncate group-hover:text-accent transition-colors">
                       {p.title}
                     </h4>
-                    <div className="flex justify-between items-center pt-2">
-                      <p className="text-xs text-muted-foreground">by {p.sellerName}</p>
-                      <p className="text-sm font-bold text-foreground">{formatIDR(p.price)}</p>
-                    </div>
+                      <div className="flex justify-between items-end pt-2">
+                        <p className="text-xs text-muted-foreground pb-0.5">by {p.sellerName}</p>
+                        <div className="flex flex-col items-end leading-none gap-1">
+                          {p.originalPrice && p.originalPrice > p.price && (
+                            <span className="text-[10px] text-muted-foreground line-through">{formatIDR(p.originalPrice)}</span>
+                          )}
+                          <p className="text-sm font-bold text-foreground">{formatIDR(p.price)}</p>
+                        </div>
+                      </div>
                   </div>
                 </Link>
               </motion.div>
