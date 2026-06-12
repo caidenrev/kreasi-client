@@ -23,9 +23,37 @@ export default function ProductDetailPage() {
     setPageUrl(window.location.href);
   }, []);
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(pageUrl);
-    toast.success("Link produk berhasil disalin!");
+  const handleCopyLink = async () => {
+    try {
+      // First try the modern async clipboard API
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(pageUrl);
+        toast.success("Link produk berhasil disalin!");
+      }
+    } catch (err) {
+      // Fallback for IDE preview / blocked iframes / HTTP
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = pageUrl;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        const successful = document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        if (successful) {
+          toast.success("Link produk berhasil disalin!");
+        } else {
+          toast.error("Gagal menyalin link. Silakan copy dari browser address bar.");
+        }
+      } catch (fallbackErr) {
+        console.error("Fallback copy failed:", fallbackErr);
+        toast.error("Gagal menyalin link. Silakan copy dari browser address bar.");
+      }
+    }
   };
 
   const formatIDR = (num: number) => {
