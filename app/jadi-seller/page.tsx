@@ -180,7 +180,7 @@ export default function JadiSellerPage() {
               href={`${SELLER_URL}/register`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex bg-foreground hover:bg-accent text-background hover:text-black font-bold px-8 py-4 rounded-full text-sm transition-colors items-center justify-center gap-2"
+              className="inline-flex bg-accent hover:bg-white text-black font-bold px-8 py-4 rounded-full text-sm transition-colors items-center justify-center gap-2"
             >
               Daftar Sebagai Kreator Sekarang <ArrowRight className="w-4 h-4" />
             </a>

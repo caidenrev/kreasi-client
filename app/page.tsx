@@ -288,7 +288,7 @@ export default function LandingPage() {
 
       {/* Statistics Section */}
       <section className="bg-surface border-y border-border py-16 px-6">
-        <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+        <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-3 gap-y-12 gap-x-4 md:gap-8 text-center">
           <div className="space-y-2">
             <p className="text-4xl font-extrabold text-accent">{stats.products}+</p>
             <p className="text-sm text-foreground font-semibold">Produk Digital Siap Download</p>
@@ -299,10 +299,11 @@ export default function LandingPage() {
             <p className="text-sm text-foreground font-semibold">Kreator Profesional Indonesia</p>
             <p className="text-xs text-muted-foreground">Mitra seller terverifikasi kurasi</p>
           </div>
-          <div className="space-y-2">
-            <p className="text-4xl font-extrabold text-accent">{stats.downloads}+</p>
-            <p className="text-sm text-foreground font-semibold">Transaksi Terkirim Real-Time</p>
-            <p className="text-xs text-muted-foreground">Link Google Drive langsung muncul sukses</p>
+          
+          <div className="space-y-2 col-span-2 md:col-span-1 mt-2 md:mt-0">
+            <p className="text-5xl md:text-4xl font-extrabold text-accent">{stats.downloads}+</p>
+            <p className="text-base md:text-sm text-foreground font-semibold">Transaksi Terkirim Real-Time</p>
+            <p className="text-sm md:text-xs text-muted-foreground">Link Google Drive langsung muncul sukses</p>
           </div>
         </div>
       </section>
@@ -327,7 +328,13 @@ export default function LandingPage() {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-extrabold text-foreground">Cara Belanja di KREASI.ID</h2>
+          <h2 className="text-3xl font-extrabold text-foreground flex items-center justify-center flex-wrap gap-3">
+            Cara Belanja di
+            <span className="inline-flex items-center align-middle">
+              <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-[1.2em] theme-img-light" />
+              <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-[1.2em] theme-img-dark" />
+            </span>
+          </h2>
           <p className="text-muted-foreground text-sm">Proses instan tanpa ribet, aset digital langsung di tangan Anda.</p>
         </motion.div>
         
@@ -443,7 +450,7 @@ export default function LandingPage() {
           <div className="relative z-10 pt-4">
             <Link
               href="/jadi-seller"
-              className="inline-flex bg-foreground hover:bg-accent text-background hover:text-black font-bold px-8 py-4 rounded-full text-sm transition-colors items-center justify-center"
+              className="inline-flex bg-accent hover:bg-white text-black font-bold px-8 py-4 rounded-full text-sm transition-colors items-center justify-center"
             >
               Daftar Sebagai Kreator Sekarang
             </Link>
