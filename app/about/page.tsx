@@ -18,11 +18,11 @@ export default function AboutPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight flex items-center justify-center flex-wrap gap-3">
-            Tentang
-            <span className="inline-flex items-center align-middle">
-              <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-[1.2em] theme-img-light" />
-              <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-[1.2em] theme-img-dark" />
+          <h1 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight flex flex-col items-center justify-center gap-5">
+            <span>Tentang</span>
+            <span className="inline-flex items-center">
+              <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-20 md:h-24 theme-img-light" />
+              <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-20 md:h-24 theme-img-dark" />
             </span>
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
@@ -127,13 +127,12 @@ export default function AboutPage() {
           transition={{ duration: 0.6 }}
         >
           <div className="text-center space-y-4">
-            <h2 className="text-4xl font-extrabold text-foreground flex items-center justify-center flex-wrap gap-3">
-              Mengapa
-              <span className="inline-flex items-center align-middle">
-                <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-[1.2em] theme-img-light" />
-                <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-[1.2em] theme-img-dark" />
+            <h2 className="text-4xl font-extrabold text-foreground flex flex-col items-center justify-center gap-5">
+              <span>Mengapa</span>
+              <span className="inline-flex items-center">
+                <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-16 md:h-20 theme-img-light" />
+                <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-16 md:h-20 theme-img-dark" />
               </span>
-              ?
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Keunggulan platform kami untuk menunjang kebutuhan digital Anda.

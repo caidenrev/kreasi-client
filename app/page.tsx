@@ -328,11 +328,11 @@ export default function LandingPage() {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-extrabold text-foreground flex items-center justify-center flex-wrap gap-3">
-            Cara Belanja di
-            <span className="inline-flex items-center align-middle">
-              <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-[1.2em] theme-img-light" />
-              <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-[1.2em] theme-img-dark" />
+          <h2 className="text-3xl font-extrabold text-foreground flex flex-col items-center justify-center gap-5">
+            <span>Cara Belanja di</span>
+            <span className="inline-flex items-center">
+              <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-16 md:h-20 theme-img-light" />
+              <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-16 md:h-20 theme-img-dark" />
             </span>
           </h2>
           <p className="text-muted-foreground text-sm">Proses instan tanpa ribet, aset digital langsung di tangan Anda.</p>
