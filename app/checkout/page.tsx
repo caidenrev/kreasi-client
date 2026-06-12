@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/hooks/useCart";
-import { ArrowLeft, CreditCard, ShieldCheck } from "lucide-react";
+import { ArrowLeft, CreditCard, ShieldCheck, Ticket, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
@@ -13,6 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 // Declare window interface for Midtrans Snap CDN script
 declare global {
@@ -32,6 +34,10 @@ export default function CheckoutPage() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [voucherCode, setVoucherCode] = useState("");
+  const [appliedVoucher, setAppliedVoucher] = useState<any>(null);
+  const [voucherLoading, setVoucherLoading] = useState(false);
+  const [discountAmount, setDiscountAmount] = useState(0);
 
   const form = useForm<z.infer<typeof checkoutSchema>>({
     resolver: zodResolver(checkoutSchema),
@@ -41,6 +47,85 @@ export default function CheckoutPage() {
       phone: "",
     },
   });
+
+  useEffect(() => {
+    if (!appliedVoucher || cart.length === 0) {
+      setDiscountAmount(0);
+      return;
+    }
+
+    const eligibleTotal = cart
+      .filter((item) => item.sellerId === appliedVoucher.sellerId)
+      .reduce((sum, item) => sum + item.price, 0);
+
+    if (eligibleTotal === 0) {
+      toast.error("Voucher tidak berlaku untuk produk di keranjang ini.");
+      setAppliedVoucher(null);
+      setDiscountAmount(0);
+      return;
+    }
+
+    let discount = 0;
+    if (appliedVoucher.discountType === "percentage") {
+      discount = (eligibleTotal * appliedVoucher.discountValue) / 100;
+    } else if (appliedVoucher.discountType === "fixed") {
+      discount = appliedVoucher.discountValue;
+      if (discount > eligibleTotal) {
+        discount = eligibleTotal;
+      }
+    }
+
+    setDiscountAmount(discount);
+  }, [cart, appliedVoucher]);
+
+  const handleApplyVoucher = async () => {
+    if (!voucherCode.trim()) return;
+    setVoucherLoading(true);
+    
+    try {
+      const q = query(collection(db, "vouchers"), where("code", "==", voucherCode.trim().toUpperCase()));
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+        toast.error("Voucher tidak ditemukan.");
+        setVoucherLoading(false);
+        return;
+      }
+
+      const vData = querySnapshot.docs[0].data();
+      
+      if (!vData.isActive) {
+        toast.error("Voucher sudah tidak aktif.");
+        setVoucherLoading(false);
+        return;
+      }
+
+      if (new Date(vData.expiresAt).getTime() < new Date().getTime()) {
+        toast.error("Voucher sudah kadaluarsa.");
+        setVoucherLoading(false);
+        return;
+      }
+
+      const hasEligibleProduct = cart.some(item => item.sellerId === vData.sellerId);
+      if (!hasEligibleProduct) {
+        toast.error("Voucher tidak berlaku untuk produk di keranjang ini.");
+        setVoucherLoading(false);
+        return;
+      }
+
+      setAppliedVoucher({
+        id: querySnapshot.docs[0].id,
+        ...vData
+      });
+      toast.success("Voucher berhasil digunakan!");
+      setVoucherCode("");
+    } catch (error) {
+      console.error("Error applying voucher:", error);
+      toast.error("Gagal mengecek voucher.");
+    } finally {
+      setVoucherLoading(false);
+    }
+  };
 
   const formatIDR = (num: number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -56,6 +141,8 @@ export default function CheckoutPage() {
       return;
     }
     setLoading(true);
+    
+    const finalAmount = cartTotal - discountAmount;
 
     try {
       const response = await fetch("/api/midtrans/create-transaction", {
@@ -72,7 +159,8 @@ export default function CheckoutPage() {
             sellerName: item.sellerName,
             price: item.price,
           })),
-          totalAmount: cartTotal,
+          totalAmount: finalAmount > 0 ? finalAmount : 0,
+          voucherCode: appliedVoucher ? appliedVoucher.code : null,
         }),
       });
 
@@ -227,9 +315,48 @@ export default function CheckoutPage() {
           </CardContent>
 
           <CardContent className="border-t border-border pt-4 space-y-4">
-            <div className="flex justify-between items-center">
+            <div className="flex gap-2">
+              <Input
+                placeholder="Masukkan Kode Voucher"
+                value={voucherCode}
+                onChange={(e) => setVoucherCode(e.target.value.toUpperCase())}
+                className="bg-surface-2 border-border text-foreground focus-visible:ring-accent uppercase"
+                disabled={voucherLoading || !!appliedVoucher}
+              />
+              {appliedVoucher ? (
+                <Button 
+                  variant="destructive" 
+                  onClick={() => {
+                    setAppliedVoucher(null);
+                    setDiscountAmount(0);
+                  }}
+                  className="px-3"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              ) : (
+                <Button 
+                  onClick={handleApplyVoucher}
+                  disabled={voucherLoading || !voucherCode.trim()}
+                  className="bg-accent hover:bg-accent-hover text-black font-semibold"
+                >
+                  {voucherLoading ? "Cek..." : "Terapkan"}
+                </Button>
+              )}
+            </div>
+
+            {appliedVoucher && (
+              <div className="flex justify-between items-center text-sm text-emerald-400 font-medium">
+                <span className="flex items-center gap-1">
+                  <Ticket className="w-4 h-4" /> Diskon Voucher ({appliedVoucher.code})
+                </span>
+                <span>-{formatIDR(discountAmount)}</span>
+              </div>
+            )}
+
+            <div className="flex justify-between items-center border-t border-border pt-4">
               <span className="text-sm text-muted-foreground">Total Bayar:</span>
-              <span className="text-2xl font-extrabold text-accent">{formatIDR(cartTotal)}</span>
+              <span className="text-2xl font-extrabold text-accent">{formatIDR(cartTotal - discountAmount > 0 ? cartTotal - discountAmount : 0)}</span>
             </div>
 
             <div className="bg-surface-2 border border-border rounded-lg p-3 text-[11px] text-muted-foreground flex gap-2 items-start">
