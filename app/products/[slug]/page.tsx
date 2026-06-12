@@ -5,8 +5,9 @@ import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, limit, doc, getDoc } from "firebase/firestore";
 import { useParams, useRouter } from "next/navigation";
 import { useCart } from "@/hooks/useCart";
-import { ShieldCheck, Download, ExternalLink, Layers, ArrowLeft, ShoppingBag } from "lucide-react";
+import { ShieldCheck, Download, ExternalLink, Layers, ArrowLeft, ShoppingBag, Share2, Link as LinkIcon, Facebook, Twitter, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
@@ -16,6 +17,16 @@ export default function ProductDetailPage() {
   const [similarProducts, setSimilarProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("description");
+  const [pageUrl, setPageUrl] = useState("");
+
+  useEffect(() => {
+    setPageUrl(window.location.href);
+  }, []);
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(pageUrl);
+    toast.success("Link produk berhasil disalin!");
+  };
 
   const formatIDR = (num: number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -193,6 +204,50 @@ export default function ProductDetailPage() {
                   Link Google Drive akan langsung muncul di halaman sukses setelah pembayaran Midtrans terverifikasi. Link backup juga dikirim ke email Anda.
                 </p>
               </div>
+            </div>
+          </div>
+
+          {/* Share Feature */}
+          <div className="bg-surface border border-border rounded-xl p-6 space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Share2 className="w-4 h-4 text-accent" />
+              <h4 className="text-sm font-bold text-foreground">Bagikan Produk Ini</h4>
+            </div>
+            <div className="flex gap-3">
+              <a
+                href={`https://api.whatsapp.com/send?text=Lihat produk keren ini: ${product?.title}%0A%0A${pageUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex justify-center items-center py-2.5 rounded-lg border border-border bg-surface-2 hover:bg-green-500/10 hover:border-green-500/30 hover:text-green-500 transition-colors"
+                title="Bagikan ke WhatsApp"
+              >
+                <MessageCircle className="w-4 h-4" />
+              </a>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex justify-center items-center py-2.5 rounded-lg border border-border bg-surface-2 hover:bg-blue-500/10 hover:border-blue-500/30 hover:text-blue-500 transition-colors"
+                title="Bagikan ke Facebook"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a
+                href={`https://twitter.com/intent/tweet?text=Lihat produk keren ini: ${product?.title}&url=${encodeURIComponent(pageUrl)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex justify-center items-center py-2.5 rounded-lg border border-border bg-surface-2 hover:bg-sky-500/10 hover:border-sky-500/30 hover:text-sky-500 transition-colors"
+                title="Bagikan ke Twitter / X"
+              >
+                <Twitter className="w-4 h-4" />
+              </a>
+              <button
+                onClick={handleCopyLink}
+                className="flex-1 flex justify-center items-center py-2.5 rounded-lg border border-border bg-surface-2 hover:bg-accent/10 hover:border-accent/30 hover:text-accent transition-colors"
+                title="Copy Link"
+              >
+                <LinkIcon className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>
