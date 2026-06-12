@@ -81,11 +81,11 @@ export default function CheckoutPage() {
   const handleApplyVoucher = async () => {
     if (!voucherCode.trim()) return;
     setVoucherLoading(true);
-    
+
     try {
       const q = query(collection(db, "vouchers"), where("code", "==", voucherCode.trim().toUpperCase()));
       const querySnapshot = await getDocs(q);
-      
+
       if (querySnapshot.empty) {
         toast.error("Voucher tidak ditemukan.");
         setVoucherLoading(false);
@@ -93,7 +93,7 @@ export default function CheckoutPage() {
       }
 
       const vData = querySnapshot.docs[0].data();
-      
+
       if (!vData.isActive) {
         toast.error("Voucher sudah tidak aktif.");
         setVoucherLoading(false);
@@ -141,7 +141,7 @@ export default function CheckoutPage() {
       return;
     }
     setLoading(true);
-    
+
     const finalAmount = cartTotal - discountAmount;
 
     try {
@@ -226,7 +226,7 @@ export default function CheckoutPage() {
                       <FormLabel className="text-muted-foreground text-xs font-semibold">NAMA LENGKAP</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Joko Susilo"
+                          placeholder="Eka Revandi"
                           className="bg-surface-2 border-border text-foreground focus-visible:ring-accent"
                           {...field}
                         />
@@ -245,7 +245,7 @@ export default function CheckoutPage() {
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder="joko@email.com"
+                          placeholder="Eka@email.com"
                           className="bg-surface-2 border-border text-foreground focus-visible:ring-accent"
                           {...field}
                         />
@@ -324,8 +324,8 @@ export default function CheckoutPage() {
                 disabled={voucherLoading || !!appliedVoucher}
               />
               {appliedVoucher ? (
-                <Button 
-                  variant="destructive" 
+                <Button
+                  variant="destructive"
                   onClick={() => {
                     setAppliedVoucher(null);
                     setDiscountAmount(0);
@@ -335,7 +335,7 @@ export default function CheckoutPage() {
                   <X className="w-4 h-4" />
                 </Button>
               ) : (
-                <Button 
+                <Button
                   onClick={handleApplyVoucher}
                   disabled={voucherLoading || !voucherCode.trim()}
                   className="bg-accent hover:bg-accent-hover text-black font-semibold"
