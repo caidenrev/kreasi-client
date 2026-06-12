@@ -56,6 +56,24 @@ export default function ProductDetailPage() {
     }
   };
 
+  const handleNativeShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: product?.title || 'Produk KREASI.ID',
+          text: `Lihat produk keren ini: ${product?.title}`,
+          url: pageUrl,
+        });
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          handleCopyLink();
+        }
+      }
+    } else {
+      handleCopyLink();
+    }
+  };
+
   const formatIDR = (num: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -156,7 +174,7 @@ export default function ProductDetailPage() {
 
           {/* Description Tabs */}
           <div className="space-y-4">
-            <div className="flex border-b border-border">
+            <div className="flex justify-between items-center border-b border-border">
               <button
                 onClick={() => setActiveTab("description")}
                 className={`pb-3 text-sm font-semibold border-b-2 px-2 transition-colors ${
@@ -164,6 +182,14 @@ export default function ProductDetailPage() {
                 }`}
               >
                 Deskripsi Produk
+              </button>
+
+              <button
+                onClick={handleNativeShare}
+                className="flex items-center gap-2 pb-3 px-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors group"
+                title="Bagikan produk ini"
+              >
+                <Share2 className="w-4 h-4 group-hover:text-accent transition-colors" /> Bagikan
               </button>
             </div>
 
@@ -232,50 +258,6 @@ export default function ProductDetailPage() {
                   Link Google Drive akan langsung muncul di halaman sukses setelah pembayaran Midtrans terverifikasi. Link backup juga dikirim ke email Anda.
                 </p>
               </div>
-            </div>
-          </div>
-
-          {/* Share Feature */}
-          <div className="bg-surface border border-border rounded-xl p-6 space-y-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Share2 className="w-4 h-4 text-accent" />
-              <h4 className="text-sm font-bold text-foreground">Bagikan Produk Ini</h4>
-            </div>
-            <div className="flex gap-3">
-              <a
-                href={`https://api.whatsapp.com/send?text=Lihat produk keren ini: ${product?.title}%0A%0A${pageUrl}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex justify-center items-center py-2.5 rounded-lg border border-border bg-surface-2 hover:bg-green-500/10 hover:border-green-500/30 hover:text-green-500 transition-colors"
-                title="Bagikan ke WhatsApp"
-              >
-                <MessageCircle className="w-4 h-4" />
-              </a>
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex justify-center items-center py-2.5 rounded-lg border border-border bg-surface-2 hover:bg-blue-500/10 hover:border-blue-500/30 hover:text-blue-500 transition-colors"
-                title="Bagikan ke Facebook"
-              >
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a
-                href={`https://twitter.com/intent/tweet?text=Lihat produk keren ini: ${product?.title}&url=${encodeURIComponent(pageUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex justify-center items-center py-2.5 rounded-lg border border-border bg-surface-2 hover:bg-sky-500/10 hover:border-sky-500/30 hover:text-sky-500 transition-colors"
-                title="Bagikan ke Twitter / X"
-              >
-                <Twitter className="w-4 h-4" />
-              </a>
-              <button
-                onClick={handleCopyLink}
-                className="flex-1 flex justify-center items-center py-2.5 rounded-lg border border-border bg-surface-2 hover:bg-accent/10 hover:border-accent/30 hover:text-accent transition-colors"
-                title="Copy Link"
-              >
-                <LinkIcon className="w-4 h-4" />
-              </button>
             </div>
           </div>
         </div>
