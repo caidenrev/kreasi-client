@@ -43,48 +43,24 @@ export default function AboutPage() {
           </p>
         </motion.div>
 
-        {/* Founder Overview Section */}
-        <div className="flex flex-col md:flex-row gap-8 lg:gap-12 items-center py-12">
+        {/* Mengenal Kreasi Overview Section */}
+        <div className="flex flex-col items-center py-12 max-w-4xl mx-auto">
           <motion.div
-            className="w-full md:w-1/2 flex justify-center relative"
-            initial={{ opacity: 0, scale: 0.8, rotate: -3 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
-          >
-            {/* Gradient Overlay biar bagian bawah foto menyatu mulus (smooth) dengan background */}
-            <div className="absolute inset-x-0 bottom-[-10px] h-48 bg-gradient-to-t from-background via-background/90 to-transparent z-10 pointer-events-none"></div>
-
-            <img
-              src="/founder.png"
-              alt="Founder Kreasi.id"
-              className="w-full max-w-[420px] md:max-w-[550px] h-auto drop-shadow-2xl relative z-0"
-              onError={(e) => {
-                // Fallback jika gambar belum diupload oleh user
-                e.currentTarget.src = "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
-              }}
-            />
-          </motion.div>
-
-          <motion.div
-            className="space-y-6 text-center md:text-left flex-1"
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            className="space-y-8 text-center w-full"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">
-              Mengenal Sang <span className="text-accent">Founder</span>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight flex flex-col items-center justify-center gap-5">
+              <span>Mengenal</span>
+              <span className="inline-flex items-center">
+                <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-16 md:h-20 theme-img-light" />
+                <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-16 md:h-20 theme-img-dark" />
+              </span>
             </h2>
 
-            {/* Title Badges */}
-            <div className="flex flex-wrap justify-center md:justify-start gap-2">
-              <span className="px-3 py-1 bg-surface-2 border border-border rounded-full text-xs font-semibold text-foreground">Software Engineer</span>
-              <span className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-xs font-semibold">Google Certified Cloud Engineer</span>
-              <span className="px-3 py-1 bg-orange-500/10 border border-orange-500/20 text-orange-400 rounded-full text-xs font-semibold">Amazon Web Services Cloud Ops</span>
-            </div>
-
-            <div className="space-y-3 mt-8">
+            <div className="space-y-3 mt-8 text-left max-w-3xl mx-auto">
               <StoryDropdown />
               <SystemDropdown />
               <SocialDropdown />
@@ -119,14 +95,35 @@ export default function AboutPage() {
           </motion.div>
         </div>
 
-        <motion.div
-          className="pt-16 border-t border-border flex flex-col items-center gap-8"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="text-center space-y-4">
+        <div className="pt-16 border-t border-border flex flex-col items-center gap-8">
+          <motion.div
+            className="w-full flex justify-center relative"
+            initial={{ opacity: 0, scale: 0.8, rotate: -3 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+          >
+            {/* Gradient Overlay biar bagian bawah foto menyatu mulus (smooth) dengan background */}
+            <div className="absolute inset-x-0 bottom-[-10px] h-48 bg-gradient-to-t from-background via-background/90 to-transparent z-10 pointer-events-none"></div>
+
+            <img
+              src="/founder.png"
+              alt="Founder Kreasi.id"
+              className="w-full max-w-[420px] md:max-w-[550px] h-auto drop-shadow-2xl relative z-0"
+              onError={(e) => {
+                // Fallback jika gambar belum diupload oleh user
+                e.currentTarget.src = "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+              }}
+            />
+          </motion.div>
+
+          <motion.div
+            className="text-center space-y-4"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+          >
             <h2 className="text-4xl font-extrabold text-foreground flex flex-col items-center justify-center gap-5">
               <span className="text-accent">Mengapa</span>
               <span className="inline-flex items-center">
@@ -137,7 +134,7 @@ export default function AboutPage() {
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Keunggulan platform kami untuk menunjang kebutuhan digital Anda.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-8">
             <div className="bg-surface border border-border p-6 rounded-2xl space-y-3 shadow-sm hover:border-accent/50 transition-colors">
@@ -168,7 +165,7 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
