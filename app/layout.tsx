@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Kreasi — Multi-Seller Digital Product Marketplace",
+  title: "Kreasi - Multi Seller Digital Product Marketplace",
   description: "Beli template desain, preset Lightroom, motion template, font, dan aset digital terbaik langsung dari para kreator Indonesia.",
   icons: {
     icon: "/icon.png?v=2",
