@@ -19,7 +19,7 @@ export default function AboutPage() {
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight flex flex-col items-center justify-center gap-5">
-            <span>Tentang</span>
+            <span className="text-accent">Tentang</span>
             <span className="inline-flex items-center">
               <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-20 md:h-24 theme-img-light" />
               <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-20 md:h-24 theme-img-dark" />
@@ -128,7 +128,7 @@ export default function AboutPage() {
         >
           <div className="text-center space-y-4">
             <h2 className="text-4xl font-extrabold text-foreground flex flex-col items-center justify-center gap-5">
-              <span>Mengapa</span>
+              <span className="text-accent">Mengapa</span>
               <span className="inline-flex items-center">
                 <img src="/logo-light-mode.png" alt="KREASI.ID" className="h-16 md:h-20 theme-img-light" />
                 <img src="/logo-dark-mode.png" alt="KREASI.ID" className="h-16 md:h-20 theme-img-dark" />
@@ -179,7 +179,7 @@ function SocialDropdown() {
 
   return (
     <div className="border border-border rounded-xl bg-surface overflow-hidden">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-surface-2 transition-colors"
       >
@@ -228,17 +228,17 @@ function SystemDropdown() {
 
   return (
     <div className="border border-border rounded-xl bg-surface overflow-hidden">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-surface-2 transition-colors"
       >
         <span className="font-bold text-foreground pr-4">Infrastruktur & Keamanan</span>
         <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
       </button>
-      
+
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -262,17 +262,17 @@ function StoryDropdown() {
 
   return (
     <div className="border border-border rounded-xl bg-surface overflow-hidden">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-surface-2 transition-colors"
       >
         <span className="font-bold text-foreground pr-4">Cerita di Balik Kreasi.id</span>
         <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
       </button>
-      
+
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

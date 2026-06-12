@@ -63,8 +63,8 @@ function ProductCatalogContent() {
 
   const filteredProducts = products
     .filter((p) => {
-      const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase()) || 
-                            p.description?.toLowerCase().includes(search.toLowerCase());
+      const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase()) ||
+        p.description?.toLowerCase().includes(search.toLowerCase());
       const matchesCategory = categoryFilter === "all" || p.category === categoryFilter;
       return matchesSearch && matchesCategory;
     })
@@ -94,93 +94,93 @@ function ProductCatalogContent() {
       <div className="absolute pointer-events-none z-0 rounded-full blur-[120px] opacity-40 dark:opacity-20 bg-purple-500 w-[250px] h-[250px] top-[20%] left-[-100px]"></div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-12 space-y-8">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h1 className="text-3xl font-extrabold tracking-tight">Katalog Produk Kreatif</h1>
-        <p className="text-muted-foreground text-sm mt-1">
-          Temukan preset, template, font, dan motion graphics premium siap pakai untuk menunjang produktivitas karya Anda.
-        </p>
-      </motion.div>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-3xl font-extrabold tracking-tight">Katalog Produk <span className="text-accent">Kreatif</span></h1>
+          <p className="text-muted-foreground text-sm mt-1">
+            Temukan preset, template, font, dan motion graphics premium siap pakai untuk menunjang produktivitas karya Anda.
+          </p>
+        </motion.div>
 
-      {/* Filter and Search Controls */}
-      <motion.div 
-        className="flex flex-col md:flex-row items-center gap-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-      >
-        {/* Search */}
-        <div className="relative flex-1 w-full">
-          <Search className="w-4 h-4 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2 z-10" />
-          <Input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Cari preset, slide template, font..."
-            className="pl-11 h-11 w-full bg-surface border-border text-sm text-foreground placeholder:text-muted-foreground rounded-xl focus-visible:ring-1 focus-visible:ring-accent"
-          />
-        </div>
+        {/* Filter and Search Controls */}
+        <motion.div
+          className="flex flex-col md:flex-row items-center gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          {/* Search */}
+          <div className="relative flex-1 w-full">
+            <Search className="w-4 h-4 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2 z-10" />
+            <Input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Cari preset, slide template, font..."
+              className="pl-11 h-11 w-full bg-surface border-border text-sm text-foreground placeholder:text-muted-foreground rounded-xl focus-visible:ring-1 focus-visible:ring-accent"
+            />
+          </div>
 
-        <div className="flex items-center gap-3 w-full md:w-auto">
-          {/* Category Filter */}
-          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="h-11 w-full md:w-[200px] bg-surface border-border text-foreground rounded-xl focus:ring-1 focus:ring-accent">
-              <SelectValue placeholder="Kategori" />
-            </SelectTrigger>
-            <SelectContent className="bg-surface border-border text-foreground rounded-xl shadow-xl">
-              <SelectItem value="all">Semua Kategori</SelectItem>
-              <SelectItem value="template">Template Desain</SelectItem>
-              <SelectItem value="preset">Preset / LUTs</SelectItem>
-              <SelectItem value="motion">Motion Graphic</SelectItem>
-              <SelectItem value="font">Font / Typeface</SelectItem>
-              <SelectItem value="asset">Aset Kreatif</SelectItem>
-              <SelectItem value="other">Format Lainnya</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            {/* Category Filter */}
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger className="h-11 w-full md:w-[200px] bg-surface border-border text-foreground rounded-xl focus:ring-1 focus:ring-accent">
+                <SelectValue placeholder="Kategori" />
+              </SelectTrigger>
+              <SelectContent className="bg-surface border-border text-foreground rounded-xl shadow-xl">
+                <SelectItem value="all">Semua Kategori</SelectItem>
+                <SelectItem value="template">Template Desain</SelectItem>
+                <SelectItem value="preset">Preset / LUTs</SelectItem>
+                <SelectItem value="motion">Motion Graphic</SelectItem>
+                <SelectItem value="font">Font / Typeface</SelectItem>
+                <SelectItem value="asset">Aset Kreatif</SelectItem>
+                <SelectItem value="other">Format Lainnya</SelectItem>
+              </SelectContent>
+            </Select>
 
-          {/* Sorting dropdown */}
-          <Select value={sort} onValueChange={setSort}>
-            <SelectTrigger className="h-11 w-full md:w-[200px] bg-surface border-border text-foreground rounded-xl focus:ring-1 focus:ring-accent">
-              <SelectValue placeholder="Urutkan" />
-            </SelectTrigger>
-            <SelectContent className="bg-surface border-border text-foreground rounded-xl shadow-xl">
-              <SelectItem value="newest">Terbaru</SelectItem>
-              <SelectItem value="popular">Terlaris (Populer)</SelectItem>
-              <SelectItem value="price-asc">Harga Terendah</SelectItem>
-              <SelectItem value="price-desc">Harga Tertinggi</SelectItem>
-              <SelectItem value="oldest">Terlama</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </motion.div>
+            {/* Sorting dropdown */}
+            <Select value={sort} onValueChange={setSort}>
+              <SelectTrigger className="h-11 w-full md:w-[200px] bg-surface border-border text-foreground rounded-xl focus:ring-1 focus:ring-accent">
+                <SelectValue placeholder="Urutkan" />
+              </SelectTrigger>
+              <SelectContent className="bg-surface border-border text-foreground rounded-xl shadow-xl">
+                <SelectItem value="newest">Terbaru</SelectItem>
+                <SelectItem value="popular">Terlaris (Populer)</SelectItem>
+                <SelectItem value="price-asc">Harga Terendah</SelectItem>
+                <SelectItem value="price-desc">Harga Tertinggi</SelectItem>
+                <SelectItem value="oldest">Terlama</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </motion.div>
 
-      {/* Catalog Grid */}
-      {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-            <Skeleton key={i} className="h-72 bg-surface border border-border rounded-xl" />
-          ))}
-        </div>
-      ) : filteredProducts.length === 0 ? (
-        <div className="text-center py-16 text-muted-foreground space-y-4">
-          <p className="text-sm">Tidak ada produk digital yang cocok dengan pencarian Anda.</p>
-          <Button
-            variant="link"
-            onClick={() => {
-              setSearch("");
-              setCategoryFilter("all");
-            }}
-            className="text-accent"
-          >
-            Reset filter
-          </Button>
-        </div>
-      ) : (
-        <motion.div 
+        {/* Catalog Grid */}
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <Skeleton key={i} className="h-72 bg-surface border border-border rounded-xl" />
+            ))}
+          </div>
+        ) : filteredProducts.length === 0 ? (
+          <div className="text-center py-16 text-muted-foreground space-y-4">
+            <p className="text-sm">Tidak ada produk digital yang cocok dengan pencarian Anda.</p>
+            <Button
+              variant="link"
+              onClick={() => {
+                setSearch("");
+                setCategoryFilter("all");
+              }}
+              className="text-accent"
+            >
+              Reset filter
+            </Button>
+          </div>
+        ) : (
+          <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
